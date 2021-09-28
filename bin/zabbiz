@@ -356,9 +356,9 @@ parse arg read_string
 
 SELECT
 /***************************************************************/
-/*  Get z/OS name                                              */
+/*  Get z/OS name (zabbiz.lpar.name)                                              */
 /***************************************************************/
-  WHEN read_string = 'zos_name' THEN
+  WHEN read_string = 'zabbiz.system.name' THEN
     DO
       cvtaddr = get_dec_addr(16)
       zos_name = Strip(Storage(D2x(cvtaddr+340),8))
@@ -367,7 +367,7 @@ SELECT
 /***************************************************************/
 /*  Get z/OS version                                           */
 /***************************************************************/
-  WHEN read_string = 'zos_version' THEN
+  WHEN read_string = 'zabbiz.zos.version' THEN
     DO
       cvtaddr = get_dec_addr(16)
       ecvtaddr = get_dec_addr(cvtaddr+140)
@@ -379,7 +379,7 @@ SELECT
 /***************************************************************/
 /*  Get Sysplex name                                           */
 /***************************************************************/
-  WHEN read_string = 'sysplex_name' THEN
+  WHEN read_string = 'zabbiz.sysplex.name' THEN
     DO
       cvtaddr = get_dec_addr(16)
       ecvtaddr = get_dec_addr(cvtaddr+140)
@@ -389,7 +389,7 @@ SELECT
 /***************************************************************/
 /*  Get JES Information (no node info in USS for now)          */
 /***************************************************************/
-  WHEN read_string = 'JES' THEN
+  WHEN read_string = 'zabbiz.jes2.primaryname' THEN
     DO
       CVT      = C2d(Storage(10,4))
       JESCT    = C2d(Storage(D2x(CVT + 296),4))
@@ -402,7 +402,7 @@ SELECT
 /***************************************************************/
 /*  Get Security System Information                            */
 /***************************************************************/
-  WHEN read_string = 'Security_Info' THEN
+  WHEN read_string = 'zabbiz.security.product' THEN
     DO
       cvtaddr = get_dec_addr(16)
       cvtrac = get_dec_addr(cvtaddr+992)
@@ -415,25 +415,25 @@ SELECT
 /***************************************************************/
 /*  Get CPU utilisation                                        */
 /***************************************************************/
-  WHEN read_string = 'CPU_utilisation' THEN
+  WHEN read_string = 'zabbiz.srm.cpu.usage' THEN
     DO
       CALL C2D_GET
       send_string = CCVUTILP
     END
-  WHEN read_string = 'RCTLACS' THEN
+  WHEN read_string = 'zabbiz.RCTLACS' THEN
     DO
       CALL C2D_GET
       send_string = RCTLACS
     END
-  WHEN read_string = 'RCTIMGWU' THEN
+  WHEN read_string = 'zabbiz.RCTIMGWU' THEN
     DO
       CALL C2D_GET
       send_string = RCTIMGWU
     END
-  WHEN read_string = 'RCTCECWU' THEN
+  WHEN read_string = 'zabbiz.RCTCECWU' THEN
     DO
       CALL C2D_GET
-      send_string = RCTCECWU
+      send_string = zabbiz.RCTCECWU
     END
   OTHERWISE
     DO
@@ -442,7 +442,7 @@ SELECT
 /***************************************************************/
 /* Get CEC type                                                */
 /***************************************************************/
-      WHEN read_string = 'CEC_type' THEN
+      WHEN read_string = 'zabbiz.cec.type' THEN
         DO
            CEC_type_description =  cec_type || '-' || Strip(cec_model) cec_desc
            send_string = CEC_type_description
@@ -450,14 +450,14 @@ SELECT
 /***************************************************************/
 /* Get CEC serial                                              */
 /***************************************************************/
-      WHEN read_string = 'CEC_serial' THEN
+      WHEN read_string = 'zabbiz.cec.serial' THEN
         DO
            send_string = cec_serial
         END
 /***************************************************************/
 /* Get CEC capacity                                            */
 /***************************************************************/
-      WHEN read_string = 'CEC_capacity' THEN
+      WHEN read_string = 'zabbiz.cec.capacity' THEN
         DO
           If cec_cap_valid = 1 Then
              proc_cap = C2d(Substr(QVS_out,65,4))
@@ -468,7 +468,7 @@ SELECT
 /***************************************************************/
 /* Get LPAR name                                               */
 /***************************************************************/
-      WHEN read_string = 'LPAR_name' THEN
+      WHEN read_string = 'zabbiz.lpar.name' THEN
         DO
           lparname = Strip(Substr(QVS_out,69,8))
           If lparname = '' THEN
@@ -480,7 +480,7 @@ SELECT
 /***************************************************************/
 /* Get LPAR capacity                                           */
 /***************************************************************/
-      WHEN read_string = 'LPAR_capacity' THEN
+      WHEN read_string = 'zabbiz.lpar.capacity' THEN
         DO
           If lpar_cap_valid = 1 Then
               Do
@@ -494,7 +494,7 @@ SELECT
 /***************************************************************/
 /* Get z/VM image name                                         */
 /***************************************************************/
-        WHEN read_string = 'VM_name' THEN
+        WHEN read_string = 'zabbiz.vm.name' THEN
           DO
             vmname = Strip(Substr(QVS_out,85,8))
             If vmname = '0000000000000000'x then
@@ -506,7 +506,7 @@ SELECT
 /***************************************************************/
 /* Get z/VM capacity                                           */
 /***************************************************************/
-        WHEN read_string = 'VM_capacity' THEN
+        WHEN read_string = 'zabbiz.vm.capacity' THEN
           DO
             If vm_cap_valid = 1 Then
                Do
