@@ -33,7 +33,7 @@ Suggestions for improvement:
     
 Edit conf/myconf to reflect your settings (minimally set ListenIP and ListenPort). Then
 
-     bin/zabxagnt conf/myconf
+     bin/zabbiz conf/myconf
 
 You will see output like below and can stop via CTRL-C.
 
@@ -63,7 +63,7 @@ If you want to run this as a 'real' Started Task (and who doesn't?) you can use 
     //STDOUT       DD SYSOUT=*
     //STDERR       DD SYSOUT=*
     //PARMDD       DD *
-    SH /path/to/bin/zabxagnt /path/to/config
+    SH /path/to/bin/zabbiz /path/to/config
 
 Doc's on how to configure Zabbix will follow... 
 See "Items.md"  for a list of all items currently available.
