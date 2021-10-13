@@ -7,7 +7,7 @@ ActiveAgent=N
 
 ## Make sure to set for your config..
 ListenPort=10054
-ListenIP=192.168.1.20
+ListenIP=0.0.0.0
 
 ############ GENERAL PARAMETERS #################
 

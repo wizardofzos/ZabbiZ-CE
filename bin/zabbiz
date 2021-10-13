@@ -353,7 +353,7 @@ exit
 /***************************************************************/
 Calculate_Result: Procedure
 parse arg read_string
-
+say "Getting: "read_string
 SELECT
 /***************************************************************/
 /*  Get z/OS name (zabbiz.lpar.name)                                              */
@@ -433,7 +433,7 @@ SELECT
   WHEN read_string = 'zabbiz.RCTCECWU' THEN
     DO
       CALL C2D_GET
-      send_string = zabbiz.RCTCECWU
+      send_string = RCTCECWU
     END
   OTHERWISE
     DO
@@ -508,13 +508,16 @@ SELECT
 /***************************************************************/
         WHEN read_string = 'zabbiz.vm.capacity' THEN
           DO
-            If vm_cap_valid = 1 Then
-               Do
-               vm_cap = C2d(Substr(QVS_out,93,4))
+           
+         
+               vmname = Strip(Substr(QVS_out,85,8))
+               If vmname = '0000000000000000'x then
+                 vm_cap = 0
+               else 
+                 vm_cap = C2d(Substr(QVS_out,93,4))
                send_string = vm_cap
-               END
-            Else
-              send_string = 'ZBXD_UNSUPPORTED'
+             
+       
           END
         OTHERWISE
         send_string = 'ZBXD_UNSUPPORTED'
@@ -536,6 +539,7 @@ CCVUTILP = C2d(Storage(D2x(RMCTCCT+102),2))
 RCTLACS  = C2d(Storage(D2x(RCT+196),4))
 RCTIMGWU = C2d(Storage(D2x(RCT+28),4))
 RCTCECWU = C2d(Storage(D2x(RCT+32),4))
+RCCPTRTH = C2d(Storage(D2x(RCT+14),2))
 return
 
 /***************************************************************/
